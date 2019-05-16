@@ -45,7 +45,7 @@ Function Write-Exception
 
 # Error control
 try {
-	$servers = 1..254 | % { Test-Connection -count 1 -computer 192.168.0.$_ -ErrorAction SilentlyContinue } | Select address
+	$servers = 1..254 | % { Test-Connection -count 1 -computer $range$_ -ErrorAction SilentlyContinue } | Select address
 	$windows = foreach ($server in $servers) { Get-WmiObject -Class win32_operatingsystem -Computer $server.address -ErrorAction SilentlyContinue | Select CSName,Version }
 	foreach ($window in $windows) { foreach ($kb in $kbs ) { Get-HotFix -Id $kb -ComputerName $window.CSName -ErrorAction SilentlyContinue } }
 	exit 0
